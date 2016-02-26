@@ -8,6 +8,19 @@ var Table = require('../db/knex'),
 
   var crypto = require('../utilities/crypto');
 
+router.get('/highscores', function(req, res) {
+  Users()
+    // .where({high_score: !null})
+    .select('user_name', 'high_score')
+    .orderBy('high_score', 'desc')
+    .limit(10)
+    .then(function(users) {
+      res.send(users);
+    })
+    .catch(function(err) {
+      res.send(err);
+    });
+});
 /* GET user by ID. */
 router.get('/:id', function(req, res) {
 
@@ -25,7 +38,7 @@ router.get('/:id', function(req, res) {
 
 /* POST new user. */
 router.post('/', function(req, res) {
-	
+
 	var user = {
 		email : req.body.email,
 		password : req.body.password,
@@ -48,7 +61,7 @@ router.post('/', function(req, res) {
 
 /* Delete user by ID. */
 router.delete('/:id', function(req, res) {
-	
+
 	Users()
 		.where({ id: Number(req.params.id)})
 		.delete()
@@ -63,7 +76,7 @@ router.delete('/:id', function(req, res) {
 
 /* GET user by ID. */
 router.put('/:id', function(req, res) {
-	
+
 	var score = {
 		high_score : req.body.high_score
 	};
