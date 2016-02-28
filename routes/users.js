@@ -27,6 +27,7 @@ router.get('/:id', function(req, res) {
 	Users()
 		.where({id: Number(req.params.id)})
 		.then(function(users) {
+			delete users[0].password;
 			console.log(users);
 			res.send(users);
 		})
@@ -102,6 +103,7 @@ router.put('/:id', function(req, res) {
       crypto.comparePassword(req.body.password, user, function(isEqual) {
         if(isEqual) {
           delete user.password;
+          console.log(true);
           res.send(user);
         }
         else {
