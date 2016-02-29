@@ -6,7 +6,9 @@ var router = express.Router();
 var Table = require('../db/knex'),
   Users = Table('users');
 
-  var crypto = require('../utilities/crypto');
+var jwt = require('jsonwebtoken');
+
+var crypto = require('../utilities/crypto');
 
 router.get('/highscores', function(req, res) {
   Users()
@@ -50,8 +52,9 @@ router.post('/', function(req, res) {
 	crypto.hashPassword(user, function() {
 		Users()
 			.insert(user)
-			.then(function(numRows) {
-				res.send(numRows);
+			.then(function() {
+				var myToken = jwt.sign({"user": req.body.email}, process.env.JWT_SECRET);
+				res.send(myToken);
 			})
 			.catch(function(err) {
 				res.send(err);
@@ -103,8 +106,9 @@ router.put('/:id', function(req, res) {
       crypto.comparePassword(req.body.password, user, function(isEqual) {
         if(isEqual) {
           delete user.password;
+          var myToken = jwt.sign({"user": req.body.email}, process.env.JWT_SECRET);
           console.log(true);
-          res.send(user);
+          res.send(myToken);
         }
         else {
           res.send('Something is wrong');
