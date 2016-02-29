@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressJWT({
     secret : process.env.JWT_SECRET
   })
-  .unless({path : ['/', '/users', '/users/highscores', '/users/signin' ]})
+  .unless({path : ['/users', '/users/highscores', '/users/signin' ]})
   );
 
 app.use('/users', users);
