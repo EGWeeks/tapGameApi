@@ -6,7 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressJWT = require('express-jwt');
+// var expressJWT = require('express-jwt');
 var cors = require('cors');
 
 var users = require('./routes/users');
@@ -22,11 +22,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(expressJWT({
-    secret : process.env.JWT_SECRET
-  })
-  .unless({path : ['/users', '/users/highscores', '/users/signin', '/users/signup' ]})
-  );
+// app.use(expressJWT({
+//     secret : process.env.JWT_SECRET
+//   })
+//   .unless({path : ['/users', '/users/highscores', '/users/signin', '/users/signup' ]})
+//   );
 
 app.use('/users', users);
 
