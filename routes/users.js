@@ -41,7 +41,7 @@ router.get('/:id', function(req, res) {
 
 /* POST new user. */
 router.post('/', function(req, res) {
-
+	req.body.high_score = 0;
 	var user = {
 		email : req.body.email,
 		password : req.body.password,
